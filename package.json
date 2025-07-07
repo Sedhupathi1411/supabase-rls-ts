@@ -1,0 +1,18 @@
+{
+  "name": "supabase-rls-ts",
+  "version": "1.0.0",
+  "description": "Type-safe TypeScript library for defining and generating Supabase Row Level Security (RLS) policy SQL from code.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc"
+  },
+  "author": "Sedhupathi R",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.0.4",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5.8.3"
+  }
+}
