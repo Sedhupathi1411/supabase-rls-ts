@@ -1,4 +1,4 @@
-import { Policy, PolicyFunction, RlsCommand } from './types';
+import { Auth, Policy, PolicyFunction, RlsCommand, ToColumnShape } from './types';
 
 /**
  * Defines a single RLS policy.
@@ -7,12 +7,12 @@ import { Policy, PolicyFunction, RlsCommand } from './types';
  * @param name Policy name.
  * @param policy Policy function.
  */
-export function definePolicy<Row, Auth>(
+export function definePolicy<Row>(
   table: string,
   command: RlsCommand,
   name: string,
-  policy: PolicyFunction<Row, Auth>
-): Policy<Row, Auth> {
+  policy: PolicyFunction<ToColumnShape<Row>, Auth>
+): Policy<ToColumnShape<Row>, Auth> {
   return { table, command, name, policy };
 }
 
@@ -21,14 +21,14 @@ export function definePolicy<Row, Auth>(
  * @param table Table name.
  * @param policies Array of {command, name, policy} objects.
  */
-export function definePolicies<Row, Auth>(
+export function definePolicies<Row>(
   table: string,
   policies: Array<{
     command: RlsCommand;
     name: string;
-    policy: PolicyFunction<Row, Auth>;
+    policy: PolicyFunction<ToColumnShape<Row>, Auth>;
   }>
-): Policy<Row, Auth>[] {
+): Policy<ToColumnShape<Row>, Auth>[] {
   return policies.map(({ command, name, policy }) =>
     definePolicy(table, command, name, policy)
   );

@@ -1,3 +1,4 @@
+import { Auth, ToColumnShape } from '../src/types';
 import {
     and,
     eq,
@@ -15,29 +16,26 @@ import {
     notLike,
     or,
 } from '../src/expr';
-import { definePolicies, definePolicy } from '../src/policy';
 import { exprToSql, policiesToSql } from '../src/sql';
 
-import { Column } from '../src/types';
+import { definePolicies } from '../src/policy';
 
 type Row = {
-    id: Column<string>;
-    user_id: Column<string>;
-    age: Column<number>;
-    name: Column<string>;
-    status: Column<string>;
-};
-type Auth = {
-    uid: Column<string>;
+    id: string;
+    user_id: string;
+    age: number;
+    name: string;
+    status: string;
 };
 
-const dummyRow: Row = {
+const dummyRow: ToColumnShape<Row> = {
     id: { name: 'id', type: '' },
     user_id: { name: 'user_id', type: '' },
     age: { name: 'age', type: 0 },
     name: { name: 'name', type: '' },
     status: { name: 'status', type: '' },
 };
+
 const dummyAuth: Auth = {
     uid: { name: 'auth.uid()', type: '' },
 };
@@ -93,7 +91,7 @@ describe('RLS Policy Library', () => {
     });
 
     it('should generate full policy SQL for select', () => {
-        const policies = definePolicies<Row, Auth>('profiles', [
+        const policies = definePolicies<Row>('profiles', [
             {
                 command: 'select',
                 name: 'Select own profile',
@@ -108,7 +106,7 @@ describe('RLS Policy Library', () => {
     });
 
     it('should generate full policy SQL for insert', () => {
-        const policies = definePolicies<Row, Auth>('profiles', [
+        const policies = definePolicies<Row>('profiles', [
             {
                 command: 'insert',
                 name: 'Insert own profile',
@@ -122,7 +120,7 @@ describe('RLS Policy Library', () => {
     });
 
     it('should generate complex policy SQL', () => {
-        const policies = definePolicies<Row, Auth>('profiles', [
+        const policies = definePolicies<Row>('profiles', [
             {
                 command: 'select',
                 name: 'Active or Pending',

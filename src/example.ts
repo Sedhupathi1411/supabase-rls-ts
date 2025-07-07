@@ -1,5 +1,4 @@
 import {
-    Column,
     definePolicies,
     eq,
     policiesToSql,
@@ -7,16 +6,13 @@ import {
 
 // Define your row and auth column descriptors
 type ProfileRow = {
-    id: Column<string>;
-    user_id: Column<string>;
-    avatar_url: Column<string>;
-};
-type AuthCtx = {
-    uid: Column<string>;
+    id: string;
+    user_id: string;
 };
 
+
 // Define policies for the "profiles" table
-const policies = definePolicies<ProfileRow, AuthCtx>('profiles', [
+const policies = definePolicies<ProfileRow>('profiles', [
     {
         command: 'select',
         name: 'Select own profile',

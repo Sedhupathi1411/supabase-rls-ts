@@ -56,3 +56,19 @@ export interface Policy<Row, Auth> {
   name: string;
   policy: PolicyFunction<Row, Auth>;
 }
+
+/**
+ * Auth context type (of supabase), typically containing user ID or other auth info.
+ */
+export type Auth = {
+  uid: Column<string>;
+};
+
+/**
+ * Utility type to transform all properties of T to Column<T[P]>
+ */
+
+export type ToColumnShape<T> = {
+  [K in keyof T]: Column<T[K]>;
+};
+
